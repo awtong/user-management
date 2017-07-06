@@ -1,0 +1,70 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.2'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0.1'
+    compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.1'
+   
+    compile group: 'com.google.guava', name: 'guava', version: '22.0'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    compile group: 'io.swagger', name: 'swagger-annotations', version: swaggerVersion
+    compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: swaggerVersion
+    
+    providedCompile group: 'org.apache.tomcat', name: 'tomcat-annotations-api', version: tomcatVersion
+    providedCompile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: tomcatVersion
+    
+    runtime group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.ext', name: 'jersey-bean-validation', version: jerseyVersion
+
+    runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
+    runtime group: 'org.hibernate', name: 'hibernate-core', version: '5.2.10.Final'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.+'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.+'
+    testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.8.0'
+    testCompile group: 'org.glassfish.jersey.test-framework', name: 'jersey-test-framework-core', version: jerseyVersion
+    testCompile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+    
+    testRuntime group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-jetty', version: jerseyVersion
+    testRuntime group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
+}
+
+cargo {
+    containerId = 'tomcat8x'
+    port = 8080
+
+    deployable {
+        context = rootProject.name
+    }
+
+    local {
+        homeDir = file(tomcatHome)
+        
+        outputFile = file(buildDir.path + '/cargo.log')
+        timeout = 60000
+        jvmArgs = '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000'
+        
+        containerProperties {
+            property 'cargo.tomcat.ajp.port', 9099
+        }
+    }
+}
+
+cargoRunLocal.dependsOn assemble
