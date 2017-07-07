@@ -1,8 +1,9 @@
-package awt.util;
+package awt.error;
 
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "error")
+@XmlAccessorType(XmlAccessType.NONE)
 public class ErrorMessage {
     @XmlElement(name = "field")
     private String field;

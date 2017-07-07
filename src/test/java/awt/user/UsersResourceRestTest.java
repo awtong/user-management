@@ -3,7 +3,7 @@ package awt.user;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-import java.util.*;
+import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.*;
@@ -13,7 +13,7 @@ import org.junit.*;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import awt.config.ApplicationConfig;
-import awt.util.ErrorMessage;
+import awt.error.ErrorMessages;
 
 public class UsersResourceRestTest extends JerseyTest {
 
@@ -57,8 +57,7 @@ public class UsersResourceRestTest extends JerseyTest {
 	final Response response = this.target("users").request().post(Entity.json(user));
 	assertThat(response, is(notNullValue()));
 	assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
-	final Collection<ErrorMessage> errors = response.readEntity(new GenericType<Collection<ErrorMessage>>() {
-	});
+	final ErrorMessages errors = response.readEntity(ErrorMessages.class);
 	assertThat(errors, is(notNullValue()));
     }
 
@@ -99,8 +98,7 @@ public class UsersResourceRestTest extends JerseyTest {
 	assertThat(response, is(notNullValue()));
 	assertThat(response, is(notNullValue()));
 	assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
-	final Collection<ErrorMessage> errors = response.readEntity(new GenericType<Collection<ErrorMessage>>() {
-	});
+	final ErrorMessages errors = response.readEntity(ErrorMessages.class);
 	assertThat(errors, is(notNullValue()));
     }
 

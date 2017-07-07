@@ -4,7 +4,7 @@
 	<property resource="logback.properties" scope="context" />
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [call-id: %X{log-id}] %-5level %logger - %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -20,7 +20,7 @@
 			<maxHistory>1</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [call-id: %X{log-id}] %-5level %logger - %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
