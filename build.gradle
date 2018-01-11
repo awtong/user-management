@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'org.owasp.dependencycheck'
 
 buildscript {
     repositories {
@@ -9,41 +10,55 @@ buildscript {
 
     dependencies {
         classpath 'com.bmuschko:gradle-cargo-plugin:2.2.2'
+        classpath 'org.owasp:dependency-check-gradle:3.0.2'
     }
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0.1'
+    compile group: 'awt', name: 'jaxrs-deprecated', version: '1.+'
+    compile group: 'awt', name: 'jaxrs-diagnostics', version: '1.+'
+    compile group: 'awt', name: 'jaxrs-healthcheck', version: '1.+'
+    compile group: 'awt', name: 'jaxrs-healthcheck-http', version: '1.+'
+    
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1'
     compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.1'
-   
-    compile group: 'com.google.guava', name: 'guava', version: '22.0'
+  
+    compile group: 'org.jboss.weld.servlet', name: 'weld-servlet-core', version: '2.4.5.Final'
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
     compile group: 'io.swagger', name: 'swagger-annotations', version: swaggerVersion
     compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: swaggerVersion
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.8.9'
     
     providedCompile group: 'org.apache.tomcat', name: 'tomcat-annotations-api', version: tomcatVersion
     providedCompile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: tomcatVersion
     
     runtime group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: jerseyVersion
-    runtime group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
     runtime group: 'org.glassfish.jersey.ext', name: 'jersey-bean-validation', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x-servlet', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x-ban-custom-hk2-binding', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: jerseyVersion
 
     runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
-    runtime group: 'org.hibernate', name: 'hibernate-core', version: '5.2.10.Final'
-    
+    runtime group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
+    runtime group: 'org.hibernate', name: 'hibernate-hikaricp', version: '5.2.12.Final'
+    runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
     testCompile group: 'junit', name: 'junit', version: '4.+'
     testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.+'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.+'
-    testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.8.0'
+    testCompile group: 'ru.yandex.qatools.embed', name: 'postgresql-embedded', version: '2.5'
     testCompile group: 'org.glassfish.jersey.test-framework', name: 'jersey-test-framework-core', version: jerseyVersion
     testCompile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+    testCompile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
     
     testRuntime group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-jetty', version: jerseyVersion
-    testRuntime group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
 }
 
 cargo {
@@ -57,7 +72,7 @@ cargo {
     local {
         homeDir = file(tomcatHome)
         
-        outputFile = file(buildDir.path + '/cargo.log')
+        outputFile = file(homeDir.path + '/logs/cargo.log')
         timeout = 60000
         jvmArgs = '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000'
         

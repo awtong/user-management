@@ -1,0 +1,46 @@
+<constraint-mappings xmlns="http://jboss.org/xml/ns/javax/validation/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.1.xsd"
+	version="1.1">
+
+	<default-package>awt.user</default-package>
+
+	<bean class="User" ignore-annotations="true">
+		<field name="username">
+			<constraint annotation="javax.validation.constraints.NotNull">
+				<message>username cannot be null</message>
+				<groups>
+					<value>awt.util.ValidationGroup$Create</value>
+					<value>awt.util.ValidationGroup$Update</value>
+				</groups>
+			</constraint>
+		</field>
+		<field name="firstName">
+			<constraint annotation="javax.validation.constraints.NotNull">
+				<message>firstName cannot be null</message>
+				<groups>
+					<value>awt.util.ValidationGroup$Create</value>
+					<value>awt.util.ValidationGroup$Update</value>
+				</groups>
+			</constraint>
+		</field>
+		<field name="lastName">
+			<constraint annotation="javax.validation.constraints.NotNull">
+				<message>lastName cannot be null</message>
+				<groups>
+					<value>awt.util.ValidationGroup$Create</value>
+					<value>awt.util.ValidationGroup$Update</value>
+				</groups>
+			</constraint>
+		</field>
+		<field name="email">
+			<constraint annotation="javax.validation.constraints.NotNull">
+				<message>email cannot be null</message>
+				<groups>
+					<value>awt.util.ValidationGroup$Create</value>
+					<value>awt.util.ValidationGroup$Update</value>
+				</groups>
+			</constraint>
+		</field>
+	</bean>
+</constraint-mappings>

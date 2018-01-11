@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
-<configuration>
+<configuration scan="true" scanPeriod="120 seconds">
 	<property resource="logback.properties" scope="context" />
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [call-id: %X{log-id}] %-5level %logger - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [id: %X{log-id:-NOT_YET_SET}] %-5level %logger - %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -20,16 +20,24 @@
 			<maxHistory>1</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [call-id: %X{log-id}] %-5level %logger - %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [id: %X{log-id:-NO_LOG_ID}] %-5level %logger - %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
+	</appender>
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
 	</appender>
 	<logger name="org.eclipse" level="ERROR" />
 	<logger name="org.glassfish" level="ERROR" />
 	<logger name="org.hibernate" level="ERROR" />
 	<logger name="org.jboss" level="ERROR" />
-	<root>
+	<logger name="io.swagger" level="ERROR" />
+	<logger name="ru.yandex" level="ERROR" />
+	<logger name="de.flapdoodle" level="ERROR" />
+	<logger name="org.flywaydb" level="ERROR" />
+	<logger name="com.zaxxer.hikari" level="ERROR" />
+	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="FILE" />
+		<appender-ref ref="ASYNC" />
 	</root>
 </configuration>
