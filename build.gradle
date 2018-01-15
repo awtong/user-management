@@ -43,7 +43,6 @@ dependencies {
     runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x', version: jerseyVersion
     runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x-servlet', version: jerseyVersion
     runtime group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x-ban-custom-hk2-binding', version: jerseyVersion
-    runtime group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: jerseyVersion
 
     runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.+'
     runtime group: 'org.hibernate', name: 'hibernate-core', version: '5.2.12.Final'
