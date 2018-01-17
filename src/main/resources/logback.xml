@@ -36,7 +36,7 @@
 	<logger name="de.flapdoodle" level="ERROR" />
 	<logger name="org.flywaydb" level="ERROR" />
 	<logger name="com.zaxxer.hikari" level="ERROR" />
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ASYNC" />
 	</root>

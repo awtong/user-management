@@ -1,4 +1,8 @@
 apply plugin: 'java'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+apply plugin: 'project-report'
+apply plugin: 'build-dashboard'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.cargo'
 apply plugin: 'org.owasp.dependencycheck'
@@ -55,9 +59,9 @@ dependencies {
     testCompile group: 'ru.yandex.qatools.embed', name: 'postgresql-embedded', version: '2.5'
     testCompile group: 'org.glassfish.jersey.test-framework', name: 'jersey-test-framework-core', version: jerseyVersion
     testCompile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
-    testCompile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
+    testCompile group: 'org.flywaydb', name: 'flyway-core', version: '5.0.5'
     
-    testRuntime group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-jetty', version: jerseyVersion
+    testRuntime group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-grizzly2', version: jerseyVersion
 }
 
 cargo {
@@ -69,7 +73,7 @@ cargo {
     }
 
     local {
-        homeDir = file(tomcatHome)
+        homeDir = file(System.getenv('CATALINA_HOME'))
         
         outputFile = file(homeDir.path + '/logs/cargo.log')
         timeout = 60000
